@@ -1,5 +1,7 @@
 # scoop-bucket
 
+> nib's first release comes with 1.0.0. Until then there is nothing here to install; build nib from source as its README says.
+
 The [Scoop](https://scoop.sh) bucket for [nib](https://github.com/nib-editor/nib), a modal editor made of WebAssembly plugins.
 
 ```powershell

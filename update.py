@@ -5,6 +5,7 @@ does the same by hand.
 import json
 import os
 import pathlib
+import urllib.error
 import urllib.request
 
 REPO = "nib-editor/nib"
@@ -56,7 +57,21 @@ def manifest(tag, sha256):
     }
 
 
+def released():
+    """Whether nib has a release yet: there is none before 1.0.0."""
+    try:
+        get(f"https://api.github.com/repos/{REPO}/releases/latest")
+    except urllib.error.HTTPError as err:
+        if err.code == 404:
+            return False
+        raise
+    return True
+
+
 if __name__ == "__main__":
+    if not released():
+        print("nib has no release yet; nothing to do")
+        raise SystemExit
     tag, sha256 = latest()
     path = pathlib.Path(__file__).parent / "bucket" / "nib.json"
     path.write_text(json.dumps(manifest(tag, sha256), indent=4) + "\n")
